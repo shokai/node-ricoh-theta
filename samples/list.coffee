@@ -1,5 +1,7 @@
 Theta = require __dirname+'/../'
+
 theta = new Theta()
+theta.connect '192.168.1.1'
 
 theta.on 'connect', ->
   console.log 'connect!!'
