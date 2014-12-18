@@ -1,0 +1,32 @@
+{
+  "name": "ricoh-theta",
+  "version": "0.0.1",
+  "description": "controll RICOH THETA 360-degree camera",
+  "main": "lib/theta.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "coffee-errors": "*",
+    "coffee-script": "*",
+    "mocha": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-simple-mocha": "*",
+    "grunt-notify": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-coffeelint": "*",
+    "grunt-contrib-watch": "*"
+  },
+  "keywords": [
+    "ricoh",
+    "theta",
+    "camera"
+  ],
+  "author": "Sho Hashimoto <hashimoto@shokai.org>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "*",
+    "ptp": "^2.0.4"
+  }
+}
