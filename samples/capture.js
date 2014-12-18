@@ -9,6 +9,7 @@ theta.on('connect', function(){
   theta.capture(function(err){
     if(err) return console.error(err);
     console.log('captured');
+    theta.disconnect();
     process.exit();
   });
 });

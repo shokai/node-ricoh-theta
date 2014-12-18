@@ -8,13 +8,13 @@ module.exports = class Theta extends events.EventEmitter
   constructor: ->
     @client = require 'ptp'
 
-    @client.onDisconnected = =>
-      debug 'ptp disconnect'
-      @emit 'disconnect'
-
     @client.onConnected = =>
       debug 'ptp connect'
       @emit 'connect'
+
+    @client.onDisconnected = =>
+      debug 'ptp disconnect'
+      @emit 'disconnect'
 
     @client.onError = (err) =>
       debug "ptp error - #{err}"
@@ -26,6 +26,9 @@ module.exports = class Theta extends events.EventEmitter
     debug 'connecting..'
     @client.connect()
     return @
+
+  disconnect: ->
+    @client.disconnect()
 
   capture: (callback = ->) ->
     @client.capture
