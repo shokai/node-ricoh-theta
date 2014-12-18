@@ -53,6 +53,6 @@ module.exports = class Theta extends events.EventEmitter
         callback null, res
       onFailure: ->
         name = ptp.devicePropCodes[code] or 'undefined'
-        callback 'getting property \"#{name}\" was failed'
+        callback "getting property \"#{name}\" was failed"
 
   list: ->
