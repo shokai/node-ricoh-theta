@@ -1,8 +1,6 @@
 var Theta = require(__dirname+'/../');
 // var Theta = require('ricoh-theta');
 
-var ptp = require('ptp');
-
 var theta = new Theta();
 theta.connect('192.168.1.1');
 
