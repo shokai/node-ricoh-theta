@@ -37,4 +37,15 @@ module.exports = class Theta extends events.EventEmitter
       onFailure: ->
         callback 'capture failed'
 
+  getProperty: (code, callback = ->) ->
+    @client.getDeviceProperty
+      code: code
+      onSuccess: (res) ->
+        callback null, res
+      onFailure: ->
+        callback 'getProperty failed'
+
+  getBattery: (callback = ->) ->
+    @getProperty @client.devicePropCodes.batteryLevel, callback
+
   list: ->
