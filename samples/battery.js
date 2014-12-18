@@ -8,9 +8,9 @@ theta.connect('192.168.1.1');
 
 theta.on('connect', function(){
   console.log('connect!!');
-  theta.getBattery(function(err, res){
+  theta.getBatteryLevel(function(err, res){
     if(err) return console.error(err);
-    console.log("battery: "+res.dataPacket.toString());
+    console.log("BatteryLevel: "+res.dataPacket.toString());
     theta.disconnect();
   });
 });

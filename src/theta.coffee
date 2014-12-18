@@ -1,12 +1,13 @@
 'use strict'
 
-debug = require('debug')('ricoh-theta')
+debug  = require('debug')('ricoh-theta')
 events = require 'events'
+ptp    = require 'ptp'
 
 module.exports = class Theta extends events.EventEmitter
 
   constructor: ->
-    @client = require 'ptp'
+    @client = ptp
 
     @client.onConnected = =>
       debug 'ptp connect'
@@ -19,6 +20,14 @@ module.exports = class Theta extends events.EventEmitter
     @client.onError = (err) =>
       debug "ptp error - #{err}"
       @emit 'error'
+
+    ## register device property methods
+    for name, code of ptp.devicePropCodes
+      do (name, code) =>
+        method_name = "get#{name[0].toUpperCase()}#{name[1..-1]}"
+        @[method_name] = (callback = ->) =>
+          debug "get property \"#{method_name}\" - code: #{code}"
+          @getProperty code, callback
 
   connect: (@host='192.168.1.1') ->
     @client.host = @host
@@ -43,9 +52,7 @@ module.exports = class Theta extends events.EventEmitter
       onSuccess: (res) ->
         callback null, res
       onFailure: ->
-        callback 'getProperty failed'
-
-  getBattery: (callback = ->) ->
-    @getProperty @client.devicePropCodes.batteryLevel, callback
+        name = ptp.devicePropCodes[code] or 'undefined'
+        callback 'getting property \"#{name}\" was failed'
 
   list: ->
