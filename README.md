@@ -18,12 +18,23 @@ var Theta = require('ricoh-theta');
 var theta = new Theta();
 theta.connect('192.168.1.1');
 
+// capture
 theta.on('connect', function(){
-  console.log('connect!!');
   theta.capture(function(err){
     if(err) return console.error(err);
-    console.log('captured');
-    theta.disconnect();
+    console.log('capture success');
+  });
+});
+
+// get picture
+theta.on('objectAdded', function(object_id){
+  theta.getPicture(object_id, function(err, picture){
+    fs.writeFile('tmp.jpg', picture, function(err){
+      console.log('picture saved => tmp.jpg');
+
+      theta.disconnect();
+      process.exit();
+    });
   });
 });
 ```

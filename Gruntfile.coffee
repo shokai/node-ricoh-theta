@@ -19,7 +19,7 @@ module.exports = (grunt) ->
     coffeelint:
       options:
         max_line_length:
-          value: 79
+          value: 119
         indentation:
           value: 2
         newlines_after_classes:

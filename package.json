@@ -27,6 +27,6 @@
   "license": "MIT",
   "dependencies": {
     "debug": "*",
-    "ptp": "^2.0.4"
+    "ptp": "git://github.com/shokai/ptp.js.git#read_data"
   }
 }

@@ -34,19 +34,25 @@ module.exports = class Theta extends events.EventEmitter
     @client.clientName = 'ricoh-theta npm'
     debug 'connecting..'
     @client.connect()
+    @client.onObjectAdded = (res) =>
+      object_id = res.parameters?[1]
+      debug "objectAdded: #{object_id}"
+      @emit 'objectAdded', object_id
     return @
 
   disconnect: ->
     @client.disconnect()
 
   capture: (callback = ->) ->
+    debug "request capture"
     @client.capture
       onSuccess: ->
-        callback()
+        callback null
       onFailure: ->
         callback 'capture failed'
 
   getProperty: (code, callback = ->) ->
+    debug "request getProperty(#{code})"
     @client.getDeviceProperty
       code: code
       onSuccess: (res) ->
@@ -55,4 +61,30 @@ module.exports = class Theta extends events.EventEmitter
         name = ptp.devicePropCodes[code] or 'undefined'
         callback "getting property \"#{name}\" was failed"
 
-  list: ->
+  getPicture: (object_id, callback = ->) ->
+    debug "request getPicture(#{object_id})"
+    @client.getObject
+      objectId: object_id
+      onSuccess: (res) ->
+        debug "getPicture(#{object_id}) done"
+        callback null, new Buffer(res.dataPacket.array)
+      onFailure: ->
+        debug "getPicture(#{object_id}) failed"
+        callback "error"
+
+  listPictures: (callback = ->) ->
+    debug "request pictures list"
+    @client.getObjectHandles
+      args: [0xFFFFFFFF, 0x00000000, 0]
+      onSuccess: (res) ->
+        arr = res.dataPacket.array.splice(0).splice(8)
+        pictures = []
+        for i in [0...arr.length/4]
+          object_id = 0
+          for j in [0...4]
+            object_id += (arr[i*4+j] << (8*j))
+          pictures.unshift object_id
+        debug "list #{pictures.length} pictures"
+        callback null, pictures
+      onFailure: ->
+        callback "error"
