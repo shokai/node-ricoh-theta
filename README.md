@@ -10,6 +10,15 @@ controll RICOH THETA 360-degree camera
     % npm install ricoh-theta
 
 
+## theta command
+
+    % theta --help
+    % theta --capture
+    % theta --capture out.jpg
+    % theta --list
+    % theta --id [object_id] --save out.jpg
+
+
 ## Usage
 
 ```javascript
