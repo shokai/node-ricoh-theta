@@ -1,5 +1,7 @@
 # ricoh-theta npm
-controll RICOH THETA 360-degree camera
+Node.js client for RICOH THETA - 360-degree camera
+
+[![Build Status](https://travis-ci.org/shokai/node-ricoh-theta.svg?branch=master)](https://travis-ci.org/shokai/node-ricoh-theta)
 
 - https://github.com/shokai/node-ricoh-theta
 - https://www.npmjs.com/package/ricoh-theta
