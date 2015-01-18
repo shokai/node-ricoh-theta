@@ -29,7 +29,7 @@ parser.on 'help', ->
     % theta --capture out.jpg
     % theta --list
     % theta --id [object_id] --save out.jpg
-    % DEBUG=* theta --capture
+    % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
   process.exit 0
