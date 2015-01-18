@@ -4,7 +4,7 @@
   "description": "controll RICOH THETA 360-degree camera",
   "main": "lib/theta.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "bin": {
     "theta": "./bin/theta.coffee"
