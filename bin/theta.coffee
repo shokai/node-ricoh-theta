@@ -16,6 +16,7 @@ parser = new optparse.OptionParser [
   ['--list', 'list pictures']
   ['--id [Object ID]', 'specify picture by ID']
   ['--save [FILENAME]', 'save picture']
+  ['--battery', 'check battery level']
 ]
 
 parser.on 'help', ->
@@ -71,5 +72,15 @@ parser.on 'save', (opt, filename) ->
   theta.connect()
   theta.once 'connect', ->
     savePicture config.object_id, filename
+
+parser.on 'battery', ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.getBatteryLevel (err, res) ->
+      if err
+        console.error err
+        return process.exit 1
+      console.log "BatteryLevel: #{res.dataPacket.toString()}"
+      theta.disconnect()
 
 parser.parse process.argv
