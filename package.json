@@ -6,9 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "theta": "./bin/theta.coffee"
+  },
+  "dependencies": {
+    "coffee-script": "*",
+    "debug": "*",
+    "optparse": "*",
+    "ptp": "git://github.com/shokai/ptp.js.git#read_data"
+  },
   "devDependencies": {
     "coffee-errors": "*",
-    "coffee-script": "*",
     "mocha": "*",
     "grunt": "*",
     "grunt-cli": "*",
@@ -25,8 +33,12 @@
   ],
   "author": "Sho Hashimoto <hashimoto@shokai.org>",
   "license": "MIT",
-  "dependencies": {
-    "debug": "*",
-    "ptp": "git://github.com/shokai/ptp.js.git#read_data"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shokai/node-ricoh-theta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shokai/node-ricoh-theta/issues"
+  },
+  "homepage": "https://github.com/shokai/node-ricoh-theta"
 }
