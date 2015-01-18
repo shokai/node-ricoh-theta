@@ -12,6 +12,5 @@ theta.on('connect', function(){
     console.log("Object IDs: " + JSON.stringify(object_ids));
     console.log(object_ids.length + " pictures");
     theta.disconnect();
-    process.exit();
   });
 });

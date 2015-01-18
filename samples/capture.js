@@ -19,9 +19,7 @@ theta.on('objectAdded', function(object_id){
   theta.getPicture(object_id, function(err, picture){
     fs.writeFile('tmp.jpg', picture, function(err){
       console.log('picture saved => tmp.jpg');
-
       theta.disconnect();
-      process.exit();
     });
   });
 });

@@ -10,6 +10,5 @@ theta.on('connect', function(){
     if(err) return console.error(err);
     console.log("BatteryLevel: "+res.dataPacket.toString());
     theta.disconnect();
-    process.exit();
   });
 });
