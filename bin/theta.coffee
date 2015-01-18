@@ -13,6 +13,9 @@ config = {}
 parser = new optparse.OptionParser [
   ['-h', '--help', 'show help']
   ['--capture [FILENAME]', 'take a picture']
+  ['--list', 'list pictures']
+  ['--id [Object ID]', 'specify picture by ID']
+  ['--save [FILENAME]', 'save picture']
 ]
 
 parser.on 'help', ->
@@ -23,10 +26,21 @@ parser.on 'help', ->
   Usage:
     % theta --capture
     % theta --capture out.jpg
-    % DEBUG=* theta capture
+    % theta --list
+    % theta --id [object_id] --save out.jpg
+    % DEBUG=* theta --capture
   """
   console.log parser.toString()
   process.exit 0
+
+savePicture = (object_id, filename) ->
+  theta.getPicture object_id, (err, picture) ->
+    if err
+      console.error err
+      return process.exit 1
+    fs.writeFile filename, picture, (err) ->
+      console.log "picture (ID:#{object_id}) saved => #{filename}"
+      theta.disconnect()
 
 parser.on 'capture', (opt, filename) ->
   theta.connect()
@@ -40,12 +54,22 @@ parser.on 'capture', (opt, filename) ->
         return theta.disconnect()
 
   theta.once 'objectAdded', (object_id) ->
-    theta.getPicture object_id, (err, picture) ->
-      if err
-        console.error err
-        return process.exit 1
-      fs.writeFile filename, picture, (err) ->
-        console.log "picture saved => #{filename}"
-        theta.disconnect()
+    savePicture object_id, filename
+
+parser.on 'list', ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.listPictures (err, object_ids) ->
+      console.log "Object IDs: #{JSON.stringify(object_ids)}"
+      console.log "#{object_ids.length} pictures"
+      theta.disconnect()
+
+parser.on 'id', (opt, object_id) ->
+  config.object_id = object_id
+
+parser.on 'save', (opt, filename) ->
+  theta.connect()
+  theta.once 'connect', ->
+    savePicture config.object_id, filename
 
 parser.parse process.argv
