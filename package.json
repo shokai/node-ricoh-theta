@@ -1,6 +1,6 @@
 {
   "name": "ricoh-theta",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "controll RICOH THETA 360-degree camera",
   "main": "lib/theta.js",
   "scripts": {
