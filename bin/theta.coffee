@@ -95,4 +95,7 @@ parser.on 'battery', ->
       console.log "BatteryLevel: #{res.dataPacket.toString()}"
       theta.disconnect()
 
+if process.argv.length < 3
+  parser.on_switches.help.call()
+
 parser.parse process.argv
