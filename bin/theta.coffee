@@ -16,6 +16,7 @@ parser = new optparse.OptionParser [
   ['--list', 'list pictures']
   ['--id [Object ID]', 'specify picture by ID']
   ['--save [FILENAME]', 'save picture']
+  ['--delete [Object ID]', 'delete a picture']
   ['--battery', 'check battery level']
 ]
 
@@ -29,6 +30,7 @@ parser.on 'help', ->
     % theta --capture out.jpg
     % theta --list
     % theta --id [object_id] --save out.jpg
+    % theta --delete [object_id]
     % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
@@ -72,6 +74,16 @@ parser.on 'save', (opt, filename) ->
   theta.connect()
   theta.once 'connect', ->
     savePicture config.object_id, filename
+
+parser.on 'delete', (opt, object_id) ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.deletePicture object_id, (err) ->
+      if err
+        console.error err
+        process.exit 1
+      console.log "delete #{object_id} success"
+      theta.disconnect()
 
 parser.on 'battery', ->
   theta.connect()

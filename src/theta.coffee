@@ -88,3 +88,14 @@ module.exports = class Theta extends events.EventEmitter
         callback null, pictures
       onFailure: ->
         callback "error"
+
+  deletePicture: (object_id, callback = ->) ->
+    debug "request deletePicture(#{object_id})"
+    @client.deleteObject
+      objectId: object_id
+      onSuccess: (res) ->
+        debug "deletePicture(#{object_id}) done"
+        callback null
+      onFailure: ->
+        debug "deletePicture(#{object_id}) failed"
+        callback "error"
