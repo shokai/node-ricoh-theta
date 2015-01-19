@@ -1,3 +1,8 @@
+=== 0.1.2 2015-01-20
+
+* add command "theta --delete [object_id]"  #3
+* add method - theta.getPicture(object_id)  #3
+
 === 0.1.1 2015-01-19
 
 * fix theta command help message
