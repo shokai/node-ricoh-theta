@@ -22,7 +22,7 @@ parser = new optparse.OptionParser [
 parser.on 'help', ->
   package_json = require "#{__dirname}/../package.json"
   parser.banner = """
-  linda-server v#{package_json.version} - #{package_json.homepage}
+  theta v#{package_json.version} - #{package_json.homepage}
 
   Usage:
     % theta --capture
