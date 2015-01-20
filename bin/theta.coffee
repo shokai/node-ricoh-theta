@@ -34,7 +34,7 @@ parser.on 'help', ->
     % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
-  process.exit 0
+  return process.exit 0
 
 savePicture = (object_id, filename) ->
   theta.getPicture object_id, (err, picture) ->
@@ -81,7 +81,7 @@ parser.on 'delete', (opt, object_id) ->
     theta.deletePicture object_id, (err) ->
       if err
         console.error err
-        process.exit 1
+        return process.exit 1
       console.log "delete #{object_id} success"
       theta.disconnect()
 
