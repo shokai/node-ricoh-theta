@@ -71,6 +71,9 @@ parser.on 'id', (opt, object_id) ->
   config.object_id = object_id
 
 parser.on 'save', (opt, filename) ->
+  unless typeof config.object_id is 'string'
+    console.error '"--id=[object_id]" option required'
+    return process.exit 1
   theta.connect()
   theta.once 'connect', ->
     savePicture config.object_id, filename
