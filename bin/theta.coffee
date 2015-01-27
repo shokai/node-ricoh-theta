@@ -18,6 +18,8 @@ parser = new optparse.OptionParser [
   ['--save [FILENAME]', 'save picture']
   ['--delete [Object ID]', 'delete a picture']
   ['--battery', 'check battery level']
+  ['--get_volume', 'get audio volume']
+  ['--set_volume [NUMBER]', 'set audio volume (0~100)']
 ]
 
 parser.on 'help', ->
@@ -31,6 +33,9 @@ parser.on 'help', ->
     % theta --list
     % theta --id [object_id] --save out.jpg
     % theta --delete [object_id]
+    % theta --battery
+    % theta --get_volume
+    % theta --set_volume 20
     % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
@@ -97,6 +102,30 @@ parser.on 'battery', ->
         return process.exit 1
       console.log "BatteryLevel: #{res.dataPacket.array[0]}"
       theta.disconnect()
+
+parser.on 'get_volume', ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.getProperty 0x502C, (err, res) ->
+      if err
+        console.error err
+        return process.exit 1
+      console.log "AudioVolume: #{res.dataPacket.array[0]}"
+      theta.disconnect()
+
+parser.on 'set_volume', (opt, volume) ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.setProperty 0x502C, volume, (err, res) ->
+      if err
+        console.error err
+        return process.exit 1
+      theta.getProperty 0x502C, (err, res) ->
+        if err
+          console.error err
+          return process.exit 1
+        console.log "AudioVolume: #{res.dataPacket.array[0]}"
+        theta.disconnect()
 
 if process.argv.length < 3
   parser.on_switches.help.call()
