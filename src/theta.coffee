@@ -58,8 +58,19 @@ module.exports = class Theta extends events.EventEmitter
       onSuccess: (res) ->
         callback null, res
       onFailure: ->
-        name = ptp.devicePropCodes[code] or 'undefined'
+        name = ptp.devicePropCodes[code] or "code:#{code}"
         callback "getting property \"#{name}\" was failed"
+
+  setProperty: (code, data, callback = ->) ->
+    debug "request setProperty(#{code})"
+    @client.setDeviceProperty
+      code: code
+      data: ptp.dataFactory.createDword data
+      onSuccess: (res) ->
+        callback null, res
+      onFailure: ->
+        name = ptp.devicePropCodes[code] or "code:#{code}"
+        callback "setting property \"#{name}\" was failed"
 
   getPicture: (object_id, callback = ->) ->
     debug "request getPicture(#{object_id})"
