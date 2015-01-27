@@ -95,7 +95,7 @@ parser.on 'battery', ->
       if err
         console.error err
         return process.exit 1
-      console.log "BatteryLevel: #{res.dataPacket.toString()}"
+      console.log "BatteryLevel: #{res.dataPacket.array[0]}"
       theta.disconnect()
 
 if process.argv.length < 3

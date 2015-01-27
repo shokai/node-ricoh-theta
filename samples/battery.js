@@ -8,7 +8,7 @@ theta.on('connect', function(){
   console.log('connect!!');
   theta.getBatteryLevel(function(err, res){
     if(err) return console.error(err);
-    console.log("BatteryLevel: "+res.dataPacket.toString());
+    console.log("BatteryLevel: "+res.dataPacket.array[0]);
     theta.disconnect();
   });
 });
