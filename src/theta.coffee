@@ -48,8 +48,8 @@ module.exports = class Theta extends events.EventEmitter
     @client.capture
       onSuccess: ->
         callback null
-      onFailure: ->
-        callback 'capture failed'
+      onFailure: (err) ->
+        callback err or 'capture failed'
 
   getProperty: (code, callback = ->) ->
     debug "request getProperty(#{code})"
@@ -57,9 +57,9 @@ module.exports = class Theta extends events.EventEmitter
       code: code
       onSuccess: (res) ->
         callback null, res
-      onFailure: ->
+      onFailure: (err) ->
         name = ptp.devicePropCodes[code] or "code:#{code}"
-        callback "getting property \"#{name}\" was failed"
+        callback err or "getting property \"#{name}\" was failed"
 
   setProperty: (code, data, callback = ->) ->
     debug "request setProperty(#{code})"
@@ -68,9 +68,9 @@ module.exports = class Theta extends events.EventEmitter
       data: ptp.dataFactory.createDword data
       onSuccess: (res) ->
         callback null, res
-      onFailure: ->
+      onFailure: (err) ->
         name = ptp.devicePropCodes[code] or "code:#{code}"
-        callback "setting property \"#{name}\" was failed"
+        callback err or "setting property \"#{name}\" was failed"
 
   getPicture: (object_handle, callback = ->) ->
     debug "request getPicture(#{object_handle})"
@@ -79,9 +79,9 @@ module.exports = class Theta extends events.EventEmitter
       onSuccess: (res) ->
         debug "getPicture(#{object_handle}) done"
         callback null, new Buffer(res.dataPacket.array)
-      onFailure: ->
+      onFailure: (err) ->
         debug "getPicture(#{object_handle}) failed"
-        callback "error"
+        callback err or "getPicture(#{object_handle}) failed"
 
   getPictureInfo: (object_handle, callback = ->) ->
     debug "request getPictureInfo(#{object_handle})"
@@ -104,8 +104,9 @@ module.exports = class Theta extends events.EventEmitter
         res.handles.shift()
         debug "list #{res.handles.length} pictures"
         callback null, res.handles
-      onFailure: ->
-        callback "error"
+      onFailure: (err) ->
+        debug "list pictures failed"
+        callback err or "list pictures failed"
 
   deletePicture: (object_handle, callback = ->) ->
     debug "request deletePicture(#{object_handle})"
@@ -114,6 +115,6 @@ module.exports = class Theta extends events.EventEmitter
       onSuccess: (res) ->
         debug "deletePicture(#{object_handle}) done"
         callback null
-      onFailure: ->
+      onFailure: (err) ->
         debug "deletePicture(#{object_handle}) failed"
-        callback "error"
+        callback err or "deletePicture(#{object_handle}) failed"
