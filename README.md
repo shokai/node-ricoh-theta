@@ -48,6 +48,11 @@ theta.on('objectAdded', function(object_id){
 });
 ```
 
+## Develop
+
+- 1. git clone this repos
+- 2. `npm install` and `npm install grunt -g`
+- 3. run `grunt`
 
 Contributing
 ------------
