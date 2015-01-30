@@ -1,3 +1,9 @@
+=== 0.3.0 2015-01-30
+
+* merge --set/get_volume with --volume  #6
+* update for ptp 2.1.0  #5
+
+
 === 0.2.0 2015-01-27
 
 * add method - theta.getProperty(code, data, callback)
