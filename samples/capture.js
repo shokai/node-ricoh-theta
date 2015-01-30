@@ -14,9 +14,9 @@ theta.on('connect', function(){
   });
 });
 
-theta.on('objectAdded', function(object_id){
+theta.on('objectAdded', function(object_handle){
   console.log('getting picture..');
-  theta.getPicture(object_id, function(err, picture){
+  theta.getPicture(object_handle, function(err, picture){
     fs.writeFile('tmp.jpg', picture, function(err){
       console.log('picture saved => tmp.jpg');
       theta.disconnect();

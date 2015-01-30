@@ -35,9 +35,9 @@ module.exports = class Theta extends events.EventEmitter
     debug 'connecting..'
     @client.connect()
     @client.onObjectAdded = (res) =>
-      object_id = res.parameters?[1]
-      debug "objectAdded: #{object_id}"
-      @emit 'objectAdded', object_id
+      object_handle = res.parameters?[1]
+      debug "objectAdded: #{object_handle}"
+      @emit 'objectAdded', object_handle
     return @
 
   disconnect: ->
@@ -72,41 +72,37 @@ module.exports = class Theta extends events.EventEmitter
         name = ptp.devicePropCodes[code] or "code:#{code}"
         callback "setting property \"#{name}\" was failed"
 
-  getPicture: (object_id, callback = ->) ->
-    debug "request getPicture(#{object_id})"
+  getPicture: (object_handle, callback = ->) ->
+    debug "request getPicture(#{object_handle})"
     @client.getObject
-      objectId: object_id
+      objectHandle: object_handle
       onSuccess: (res) ->
-        debug "getPicture(#{object_id}) done"
+        debug "getPicture(#{object_handle}) done"
         callback null, new Buffer(res.dataPacket.array)
       onFailure: ->
-        debug "getPicture(#{object_id}) failed"
+        debug "getPicture(#{object_handle}) failed"
         callback "error"
 
   listPictures: (callback = ->) ->
     debug "request pictures list"
     @client.getObjectHandles
-      args: [0xFFFFFFFF, 0x00000000, 0]
+      storageId: 0xFFFFFFFF
+      objectFormatCode: 0x00000000
+      objectHandleOfAssociation: 0
       onSuccess: (res) ->
-        arr = res.dataPacket.array.splice(0).splice(8)
-        pictures = []
-        for i in [0...arr.length/4]
-          object_id = 0
-          for j in [0...4]
-            object_id += (arr[i*4+j] << (8*j))
-          pictures.unshift object_id
-        debug "list #{pictures.length} pictures"
-        callback null, pictures
+        res.handles.shift()
+        debug "list #{res.handles.length} pictures"
+        callback null, res.handles
       onFailure: ->
         callback "error"
 
-  deletePicture: (object_id, callback = ->) ->
-    debug "request deletePicture(#{object_id})"
+  deletePicture: (object_handle, callback = ->) ->
+    debug "request deletePicture(#{object_handle})"
     @client.deleteObject
-      objectId: object_id
+      objectHandle: object_handle
       onSuccess: (res) ->
-        debug "deletePicture(#{object_id}) done"
+        debug "deletePicture(#{object_handle}) done"
         callback null
       onFailure: ->
-        debug "deletePicture(#{object_id}) failed"
+        debug "deletePicture(#{object_handle}) failed"
         callback "error"

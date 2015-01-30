@@ -18,7 +18,7 @@ Node.js client for RICOH THETA - 360-degree camera
     % theta --capture
     % theta --capture out.jpg
     % theta --list
-    % theta --id [object_id] --save out.jpg
+    % theta --id [object_handle] --save out.jpg
 
 
 ## Usage
@@ -38,8 +38,8 @@ theta.on('connect', function(){
 });
 
 // get picture
-theta.on('objectAdded', function(object_id){
-  theta.getPicture(object_id, function(err, picture){
+theta.on('objectAdded', function(object_handle){
+  theta.getPicture(object_handle, function(err, picture){
     fs.writeFile('tmp.jpg', picture, function(err){
       console.log('picture saved => tmp.jpg');
       theta.disconnect();

@@ -13,7 +13,7 @@
     "coffee-script": "*",
     "debug": "*",
     "optparse": "*",
-    "ptp": "git://github.com/shokai/ptp.js.git#read_data"
+    "ptp": "^2.1"
   },
   "devDependencies": {
     "coffee-errors": "*",

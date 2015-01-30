@@ -14,9 +14,9 @@ parser = new optparse.OptionParser [
   ['-h', '--help', 'show help']
   ['--capture [FILENAME]', 'take a picture']
   ['--list', 'list pictures']
-  ['--id [Object ID]', 'specify picture by ID']
+  ['--handle [Object Handle]', 'specify picture by Object Handle']
   ['--save [FILENAME]', 'save picture']
-  ['--delete [Object ID]', 'delete a picture']
+  ['--delete [Object Handle]', 'delete a picture']
   ['--battery', 'check battery level']
   ['--get_volume', 'get audio volume']
   ['--set_volume [NUMBER]', 'set audio volume (0~100)']
@@ -31,8 +31,8 @@ parser.on 'help', ->
     % theta --capture
     % theta --capture out.jpg
     % theta --list
-    % theta --id [object_id] --save out.jpg
-    % theta --delete [object_id]
+    % theta --handle [object_handle] --save out.jpg
+    % theta --delete [object_handle]
     % theta --battery
     % theta --get_volume
     % theta --set_volume 20
@@ -41,13 +41,13 @@ parser.on 'help', ->
   console.log parser.toString()
   return process.exit 0
 
-savePicture = (object_id, filename) ->
-  theta.getPicture object_id, (err, picture) ->
+savePicture = (object_handle, filename) ->
+  theta.getPicture object_handle, (err, picture) ->
     if err
       console.error err
       return process.exit 1
     fs.writeFile filename, picture, (err) ->
-      console.log "picture (ID:#{object_id}) saved => #{filename}"
+      console.log "picture (Handle:#{object_handle}) saved => #{filename}"
       theta.disconnect()
 
 parser.on 'capture', (opt, filename) ->
@@ -61,36 +61,36 @@ parser.on 'capture', (opt, filename) ->
       unless filename
         return theta.disconnect()
 
-  theta.once 'objectAdded', (object_id) ->
-    savePicture object_id, filename
+  theta.once 'objectAdded', (object_handle) ->
+    savePicture object_handle, filename
 
 parser.on 'list', ->
   theta.connect()
   theta.once 'connect', ->
-    theta.listPictures (err, object_ids) ->
-      console.log "Object IDs: #{JSON.stringify(object_ids)}"
-      console.log "#{object_ids.length} pictures"
+    theta.listPictures (err, object_handles) ->
+      console.log "Object Handles: #{JSON.stringify(object_handles)}"
+      console.log "#{object_handles.length} pictures"
       theta.disconnect()
 
-parser.on 'id', (opt, object_id) ->
-  config.object_id = object_id
+parser.on 'handle', (opt, object_handle) ->
+  config.object_handle = object_handle
 
 parser.on 'save', (opt, filename) ->
-  unless typeof config.object_id is 'string'
-    console.error '"--id=[object_id]" option required'
+  unless typeof config.object_handle is 'string'
+    console.error '"--handle=[object_handle]" option required'
     return process.exit 1
   theta.connect()
   theta.once 'connect', ->
-    savePicture config.object_id, filename
+    savePicture config.object_handle, filename
 
-parser.on 'delete', (opt, object_id) ->
+parser.on 'delete', (opt, object_handle) ->
   theta.connect()
   theta.once 'connect', ->
-    theta.deletePicture object_id, (err) ->
+    theta.deletePicture object_handle, (err) ->
       if err
         console.error err
         return process.exit 1
-      console.log "delete #{object_id} success"
+      console.log "delete #{object_handle} success"
       theta.disconnect()
 
 parser.on 'battery', ->
