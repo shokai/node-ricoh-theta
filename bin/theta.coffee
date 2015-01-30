@@ -33,8 +33,8 @@ parser.on 'help', ->
     % theta --handle [object_handle] --save out.jpg
     % theta --delete [object_handle]
     % theta --battery
-    % theta --volume
-    % theta --volume 20
+    % theta --volume           # get audio volume
+    % theta --volume 20        # set audio volume
     % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
