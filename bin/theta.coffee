@@ -19,8 +19,14 @@ parser = new optparse.OptionParser [
   ['--delete [Object Handle]', 'delete a picture']
   ['--info [Object Handle]', 'show picture info']
   ['--battery', 'check battery level']
-  ['--volume [NUM]', 'get/set audio volume (0~100)']
+  ['--volume [NUMBER]', 'get/set audio volume (0~100)']
 ]
+
+parser.filter 'NUMBER', (v) ->
+  return v unless v # allow empty argument
+  if /^[1-9][0-9]*(\.\d+)?$/.test v
+    return v - 0
+  throw "invalid number - \"#{v}\""
 
 parser.on 'help', ->
   package_json = require "#{__dirname}/../package.json"
