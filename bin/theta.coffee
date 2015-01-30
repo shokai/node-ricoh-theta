@@ -33,6 +33,7 @@ parser.on 'help', ->
     % theta --list
     % theta --handle [object_handle] --save out.jpg
     % theta --delete [object_handle]
+    % theta --info   [object_handle]
     % theta --battery
     % theta --volume           # get audio volume
     % theta --volume 20        # set audio volume
