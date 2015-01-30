@@ -18,8 +18,7 @@ parser = new optparse.OptionParser [
   ['--save [FILENAME]', 'save picture']
   ['--delete [Object Handle]', 'delete a picture']
   ['--battery', 'check battery level']
-  ['--get_volume', 'get audio volume']
-  ['--set_volume [NUMBER]', 'set audio volume (0~100)']
+  ['--volume [NUM]', 'get/set audio volume (0~100)']
 ]
 
 parser.on 'help', ->
@@ -34,8 +33,8 @@ parser.on 'help', ->
     % theta --handle [object_handle] --save out.jpg
     % theta --delete [object_handle]
     % theta --battery
-    % theta --get_volume
-    % theta --set_volume 20
+    % theta --volume
+    % theta --volume 20
     % DEBUG=* theta --capture  # print all debug messages
   """
   console.log parser.toString()
@@ -100,22 +99,21 @@ parser.on 'battery', ->
       if err
         console.error err
         return process.exit 1
-      console.log "BatteryLevel: #{res.dataPacket.array[0]}"
+      conso4le.log "BatteryLevel: #{res.dataPacket.array[0]}"
       theta.disconnect()
 
-parser.on 'get_volume', ->
-  theta.connect()
-  theta.once 'connect', ->
-    theta.getProperty 0x502C, (err, res) ->
-      if err
-        console.error err
-        return process.exit 1
-      console.log "AudioVolume: #{res.dataPacket.array[0]}"
-      theta.disconnect()
 
-parser.on 'set_volume', (opt, volume) ->
+parser.on 'volume', (opt, volume) ->
   theta.connect()
   theta.once 'connect', ->
+    unless volume
+      theta.getProperty 0x502C, (err, res) ->
+        if err
+          console.error err
+          return process.exit 1
+        console.log "AudioVolume: #{res.dataPacket.array[0]}"
+        theta.disconnect()
+      return
     theta.setProperty 0x502C, volume, (err, res) ->
       if err
         console.error err
