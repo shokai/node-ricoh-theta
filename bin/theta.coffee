@@ -99,7 +99,7 @@ parser.on 'battery', ->
       if err
         console.error err
         return process.exit 1
-      conso4le.log "BatteryLevel: #{res.dataPacket.array[0]}"
+      console.log "BatteryLevel: #{res.dataPacket.array[0]}"
       theta.disconnect()
 
 
