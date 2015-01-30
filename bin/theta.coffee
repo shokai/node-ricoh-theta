@@ -17,6 +17,7 @@ parser = new optparse.OptionParser [
   ['--handle [Object Handle]', 'specify picture by Object Handle']
   ['--save [FILENAME]', 'save picture']
   ['--delete [Object Handle]', 'delete a picture']
+  ['--info [Object Handle]', 'show picture info']
   ['--battery', 'check battery level']
   ['--volume [NUM]', 'get/set audio volume (0~100)']
 ]
@@ -90,6 +91,16 @@ parser.on 'delete', (opt, object_handle) ->
         console.error err
         return process.exit 1
       console.log "delete #{object_handle} success"
+      theta.disconnect()
+
+parser.on 'info', (opt, object_handle) ->
+  theta.connect()
+  theta.once 'connect', ->
+    theta.getPictureInfo object_handle, (err, info) ->
+      if err
+        console.error err
+        return process.exit 1
+      console.log info
       theta.disconnect()
 
 parser.on 'battery', ->

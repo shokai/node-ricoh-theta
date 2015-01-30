@@ -83,6 +83,17 @@ module.exports = class Theta extends events.EventEmitter
         debug "getPicture(#{object_handle}) failed"
         callback "error"
 
+  getPictureInfo: (object_handle, callback = ->) ->
+    debug "request getPictureInfo(#{object_handle})"
+    @client.getObjectInfo
+      objectHandle: object_handle
+      onSuccess: (res) ->
+        debug "getPictureInfo(#{object_handle}) done"
+        callback null, res.objectInfo
+      onFailure: (err) ->
+        debug "getPictureInfo(#{object_handle}) failed"
+        callback err or "getPictureInfo(#{object_handle}) failed"
+
   listPictures: (callback = ->) ->
     debug "request pictures list"
     @client.getObjectHandles
