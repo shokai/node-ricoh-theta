@@ -8,13 +8,17 @@ module.exports = class Theta extends events.EventEmitter
 
   constructor: ->
     @client = ptp
+    isOpen = false
+    @__defineGetter__ 'isOpen', -> isOpen
 
     @client.onConnected = =>
       debug 'ptp connect'
+      isOpen = true
       @emit 'connect'
 
     @client.onDisconnected = =>
       debug 'ptp disconnect'
+      isOpen = false
       @emit 'disconnect'
 
     @client.onError = (err) =>
