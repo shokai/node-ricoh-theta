@@ -1,6 +1,7 @@
 language: node_js
 node_js:
 - '0.10'
+script: grunt build
 notifications:
   slack:
     secure: DMlLDkCKTjScM3IEPTSIiPfwGYgeSplp071dsV6jlrwXm/e6bxLBLQuFOOmsASE1/dh/eTDRbl0TTmNmxHPSEv9V/299054Sok44OSF+quIdY3wz4tUTN7GL6FwaQ8PeCPIfXnJCyuXVk9Niu876+eXb/rJwbkShMgz9Ucpr6Sc=
