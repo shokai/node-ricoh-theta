@@ -25,6 +25,7 @@ Node.js client for RICOH THETA - 360-degree camera
 ## Usage
 
 ```javascript
+var fs    = require('fs');
 var Theta = require('ricoh-theta');
 
 var theta = new Theta();
