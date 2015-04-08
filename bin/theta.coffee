@@ -24,7 +24,7 @@ parser = new optparse.OptionParser [
 
 parser.filter 'NUMBER', (v) ->
   return v unless v # allow empty argument
-  if /^[1-9][0-9]*(\.\d+)?$/.test v
+  if /^[1-9]?[0-9]*(\.\d+)?$/.test v
     return v - 0
   throw "invalid number - \"#{v}\""
 
@@ -124,24 +124,25 @@ parser.on 'battery', ->
 parser.on 'volume', (opt, volume) ->
   theta.connect()
   theta.once 'connect', ->
-    unless volume
-      theta.getProperty 0x502C, (err, res) ->
+    if typeof volume is 'number'
+      theta.setProperty 0x502C, volume, (err, res) ->
         if err
           console.error err
           return process.exit 1
-        console.log "AudioVolume: #{res.dataPacket.array[0]}"
-        theta.disconnect()
+        theta.getProperty 0x502C, (err, res) ->
+          if err
+            console.error err
+            return process.exit 1
+          console.log "AudioVolume: #{res.dataPacket.array[0]}"
+          theta.disconnect()
       return
-    theta.setProperty 0x502C, volume, (err, res) ->
+    theta.getProperty 0x502C, (err, res) ->
       if err
         console.error err
         return process.exit 1
-      theta.getProperty 0x502C, (err, res) ->
-        if err
-          console.error err
-          return process.exit 1
-        console.log "AudioVolume: #{res.dataPacket.array[0]}"
-        theta.disconnect()
+      console.log "AudioVolume: #{res.dataPacket.array[0]}"
+      theta.disconnect()
+    return
 
 if process.argv.length < 3
   parser.on_switches.help.call()
