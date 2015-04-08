@@ -14,6 +14,8 @@ Node.js client for RICOH THETA - 360-degree camera
 
 ## theta command
 
+    % npm install coffee-script -g
+
     % theta --help
     % theta --capture
     % theta --capture out.jpg
