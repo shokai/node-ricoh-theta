@@ -55,9 +55,9 @@ theta.on('objectAdded', function(object_handle){
 
 ## Develop
 
-1. git clone this repos
-2. `npm install` and `npm install grunt -g`
-3. run `grunt`
+    % npm run watch
+    # or
+    % npm run build
 
 ## Test
 

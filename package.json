@@ -4,7 +4,9 @@
   "description": "controll RICOH THETA 360-degree camera",
   "main": "lib/theta.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "build": "grunt build",
+    "watch": "grunt"
   },
   "bin": {
     "theta": "./bin/theta.coffee"
