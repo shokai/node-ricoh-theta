@@ -10,12 +10,12 @@
     "theta": "./bin/theta.coffee"
   },
   "dependencies": {
-    "coffee-script": "*",
     "debug": "*",
     "optparse": "*",
     "ptp": "^2.1"
   },
   "devDependencies": {
+    "coffee-script": "*",
     "coffee-errors": "*",
     "mocha": "*",
     "grunt": "*",
